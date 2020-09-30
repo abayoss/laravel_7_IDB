@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSlugAndAvtiveToPostsTable extends Migration
+class AddSlugAndActiveToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddSlugAndAvtiveToPostsTable extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->string("slug");
-            $table->boolean("avtive");
+            $table->boolean("active");
         });
     }
 
@@ -27,7 +27,7 @@ class AddSlugAndAvtiveToPostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn(["slug", "avtive"]);
+            $table->dropColumn(["slug", "active"]);
         });
     }
 }

@@ -16,24 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/posts', function () {
-    $users = (object) [
-        (object) [
-            "name" => "user 1",
-            "age" => "1"
-        ],
-        (object) [
-            "name" => "user 1",
-            "age" => "1"
-        ],
-        (object) [
-            "name" => "user 1",
-            "age" => "1"
-        ],
-        (object) [
-            "name" => "user 1",
-            "age" => "1"
-        ],
-    ];
-    return view('posts.index', ["users" => $users]);
+Route::resource('/posts', PostsController::class);
+
+Route::fallback(function () {
+    return view("404");
 });
