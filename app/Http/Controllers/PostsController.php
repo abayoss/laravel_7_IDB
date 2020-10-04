@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,21 @@ class PostsController extends Controller
         session()->flash('status', 'Post Was created!');
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
+    /**
+     * stores the specified comment in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function addcomment(Request $request, Post $post)
+    {
+        $comment = new Comment();
+        $comment->content = $request->comment;
+        $comment->post()->associate($post)->save();
+
+        return redirect()->route('posts.show', ['post' => $post->id]);
+    }
 
     /**
      * Display the specified resource.
@@ -54,7 +70,9 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return view('posts.show', ["post" => Post::find($id)]);
+        // dd(Post::with('comments')->whereId($id)->first());
+        $post = Post::with('comments')->whereId($id)->first();
+        return view('posts.show', ["post" => $post]);
     }
 
     /**

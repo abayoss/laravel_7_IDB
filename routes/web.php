@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('/posts', PostsController::class);
+Route::post('/posts/comment/{post}', 'PostsController@addcomment')->name('posts.comment');
 
 Route::fallback(function () {
     return view("404");
