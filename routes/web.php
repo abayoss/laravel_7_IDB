@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,7 @@ Route::post('/posts/comment/{post}', 'PostsController@addcomment')->name('posts.
 Route::fallback(function () {
     return view("404");
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
