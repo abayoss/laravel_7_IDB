@@ -21,7 +21,14 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index', ["posts" => Post::all()]);
+        // get non Trached posts
+        return view('posts.index', ["posts" => Post::withCount('comments')->get()]);
+        
+        // get only Trashed posts
+        // return view('posts.index', ["posts" => Post::onlyTrashed()->withCount('comments')->get()]);
+
+        // get all posts
+        // return view('posts.index', ["posts" => Post::withTrashed()->withCount('comments')->get()]);
     }
 
     /**
