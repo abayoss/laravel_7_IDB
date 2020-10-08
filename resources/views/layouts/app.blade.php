@@ -9,6 +9,7 @@
 
     <!-- Fonts -->
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cyborg/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <!-- Styles -->
@@ -82,7 +83,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-12">
-                <x-alert-top></x-alert-top>
+                <x-alert-center type="success"></x-alert-center>
             </div>
         </div>
         @yield('content')

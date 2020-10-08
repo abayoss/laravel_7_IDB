@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Post;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostsController extends Controller
 {
@@ -22,7 +24,7 @@ class PostsController extends Controller
     public function index()
     {
         // get non Trached posts
-        return view('posts.index', ["posts" => Post::withCount('comments')->get()]);
+        return view('posts.index', ["posts" => Post::withCount('comments')->orderBy('updated_at', 'desc')->get()]);
         
         // get only Trashed posts
         // return view('posts.index', ["posts" => Post::onlyTrashed()->withCount('comments')->get()]);
@@ -50,10 +52,11 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $post = new Post;
-        $post->title = $request->title;
+        $post->user_id = $request->user()->id;
+        $post->title   = $request->title;
         $post->content = $request->content;
-        $post->slug = "slug";
-        $post->active = true;
+        $post->slug    = Str::slug($post->title, '-');
+        $post->active  = true;
         $post->save();
 
         session()->flash('status', 'Post Was created!');
@@ -96,7 +99,12 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        return view('posts.edit', ["post" => Post::find($id)]);
+        $post = Post::find($id);
+        // if(Gate::denies('post.update', $post)){
+        //     abort(304);
+        // }
+        Gate::authorize('update', $post);
+        return view('posts.edit', ["post" => $post]);
     }
 
     /**
@@ -110,6 +118,7 @@ class PostsController extends Controller
     {
         $post->title = $request->title;
         $post->content = $request->content;
+        $post->slug = Str::slug($post->title, '-');
         $post->save();
 
         session()->flash('status', 'Post Was updated!');
@@ -124,6 +133,7 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
+        Gate::authorize('delete', $post);
         $post->delete();
         
         session()->flash('status', 'Post Was deleted!');

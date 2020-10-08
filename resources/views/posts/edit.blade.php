@@ -16,7 +16,7 @@
                         <label for="content">Content</label>
                         <input type="text" class="form-control" name="content" id="content" placeholder="content" value="{{$post->content}}">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add post</button>
+                    <button type="submit" class="btn btn-primary">Update post</button>
                 </form>
             </div>
         </div>
