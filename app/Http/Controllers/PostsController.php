@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Mail\CommentPosted;
 use App\Post;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -80,6 +83,13 @@ class PostsController extends Controller
         $comment = new Comment();
         $comment->content = $request->comment;
         $comment->post()->associate($post)->save();
+
+        $userModel = new User();
+        $user = $userModel->find($post->user_id);
+
+        // Mail::to("abayoss@yahoo.com")->send(new CommentPosted($comment));
+        // Mail::to("abayoss@yahoo.com")->queue(new CommentPosted($comment));
+        Mail::to("abayoss@yahoo.com")->later(now()->addMinutes(1), new CommentPosted($comment));
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
