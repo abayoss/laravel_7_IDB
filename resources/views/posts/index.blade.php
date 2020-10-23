@@ -19,7 +19,8 @@
                 @endcan
             </div>
             @endcan
-            <a href="{{ route('posts.show', ['post' => $post->id]) }}" style="text-decoration: none;" class="text-white">
+            <a href="{{ route('posts.show', ['post' => $post->id]) }}" style="text-decoration: none;" class="text-dark">
+                <img class="card-img-top" src="{{ Storage::url($post->image ?? "no-img.jpg") }}" alt="">
                 <div class="card-body">
                     <h3 class="card-title">{{$post->title}}</h3>
                     <p class="card-text">{{Str::limit($post->content, 100, '...')}}</p>
